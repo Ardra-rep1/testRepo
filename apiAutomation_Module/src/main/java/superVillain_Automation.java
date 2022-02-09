@@ -80,7 +80,7 @@ public class superVillain_Automation {
 //               post Request
                 JSONObject requestParams;
          requestParams = new JSONObject();
-         requestParams.put("username", "helan");
+         requestParams.put("username", "hala");
          requestParams.put("score", 500);
          resp = request.body(requestParams.toJSONString()).post("v1/user");
          valid_response = resp.then();
@@ -97,7 +97,7 @@ public class superVillain_Automation {
         Assert.assertEquals(jsonString.contains("User added."),true);
 
     }
-    @Test
+    @Test(priority = 2)
     public static void putUserDetails(){
 
         ValidatableResponse valid_response;
@@ -178,6 +178,27 @@ public class superVillain_Automation {
 
     }
 
+    @Test
+    public void deleteUserDetails(){
+        ValidatableResponse valid_response;
+        Response resp;
+        RestAssured.baseURI = "https://supervillain.herokuapp.com/";
+        RequestSpecification request = RestAssured
+                .given()
+                .header("Authorization", superVillainObjects.token)
+                .header("Content-Type", "application/json");
+
+        JSONObject data = new JSONObject();
+        data.put("username","helania");
+        resp = request.body(data.toJSONString()).delete("v1/user");
+        valid_response = resp.then();
+//        valid_response
+//                .assertThat()
+//                .statusCode(200);
+
+//        Assert.assertEquals(resp.statusCode(),200);
+
+    }
 
 
 
