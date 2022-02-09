@@ -4,8 +4,6 @@ import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
-import org.apache.http.HttpEntity;
-import org.apache.http.util.EntityUtils;
 import org.json.simple.JSONObject;
 
 
@@ -37,7 +35,10 @@ public class superVillain_Automation {
                 .statusCode(200)
                 .body("data", not(emptyArray()));
 
+
         body = resp.getBody();
+
+
         System.out.println("Response Body is: " + body.asString());
 
 
@@ -53,32 +54,67 @@ public class superVillain_Automation {
 
 
 //       post Request
-         requestParams = new JSONObject();
-         requestParams.put("username", "Sati");
-         requestParams.put("score", 500);
-         resp = request.body(requestParams.toJSONString()).post("v1/user");
-         valid_response = resp.then();
-         valid_response.assertThat()
-                .statusCode(201)
+//         requestParams = new JSONObject();
+//         requestParams.put("username", "Sati");
+//         requestParams.put("score", 500);
+//         resp = request.body(requestParams.toJSONString()).post("v1/user");
+//         valid_response = resp.then();
+//         valid_response.assertThat()
+//                .statusCode(201)
+//                .body("data", not(emptyArray()));
+//       body = resp.getBody();
+//       System.out.println("Post Request Response: " + body.asString());
+//
+//        Put Request
+        requestParams = new JSONObject();
+        requestParams.put("username", "Sati");
+        requestParams.put("score", 200);
+        resp = request.body(requestParams.toJSONString()).put("v1/user");
+        valid_response = resp.then();
+        valid_response.assertThat()
+                .statusCode(204);
+
+////        delete Request
+//        requestParams = new JSONObject();
+//        requestParams.put("username","Sati");
+//        resp = request.body(requestParams.toJSONString()).delete("v1/user");
+//        valid_response = resp.then();
+//
+
+
+
+
+//
+
+////        user register
+//         requestParams = new JSONObject();
+//         requestParams.put("username","Sain");
+//         requestParams.put("password","1234");
+//         resp = request.body(requestParams.toJSONString()).post("auth/user/register");
+//         valid_response = resp.then();
+//         valid_response
+//                 .assertThat()
+//                .statusCode(200);
+
+
+
+//         user login
+        requestParams = new JSONObject();
+        requestParams.put("username","helen");
+        requestParams.put("password","1234");
+        resp = request.body(requestParams.toJSONString()).post("auth/user/login");
+        valid_response = resp.then();
+        valid_response
+                .assertThat()
+                .statusCode(200)
                 .body("data", not(emptyArray()));
        body = resp.getBody();
        System.out.println("Post Request Response: " + body.asString());
 
-//        Put Request
-        requestParams = new JSONObject();
-        requestParams.put("username", "Sati");
-        requestParams.put("score", 400);
-        resp = request.body(requestParams.toJSONString()).put("v1/user");
-        valid_response = resp.then();
-        valid_response.statusCode(200)
-                .body("data", not(emptyArray()));
 
-
-        
-       
-       
 
     }
+
 
 
 }
