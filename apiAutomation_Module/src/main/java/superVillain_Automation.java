@@ -178,7 +178,7 @@ public class superVillain_Automation {
 
     }
 
-    #3
+//     Delete Request - Not Working 
     @Test
     public void deleteUserDetails(){
         ValidatableResponse valid_response;
