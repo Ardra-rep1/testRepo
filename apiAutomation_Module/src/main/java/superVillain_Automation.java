@@ -54,17 +54,17 @@ public class superVillain_Automation {
 
 
 //       post Request
-//         requestParams = new JSONObject();
-//         requestParams.put("username", "Sati");
-//         requestParams.put("score", 500);
-//         resp = request.body(requestParams.toJSONString()).post("v1/user");
-//         valid_response = resp.then();
-//         valid_response.assertThat()
-//                .statusCode(201)
-//                .body("data", not(emptyArray()));
-//       body = resp.getBody();
-//       System.out.println("Post Request Response: " + body.asString());
-//
+         requestParams = new JSONObject();
+         requestParams.put("username", "Sati");
+         requestParams.put("score", 500);
+         resp = request.body(requestParams.toJSONString()).post("v1/user");
+         valid_response = resp.then();
+         valid_response.assertThat()
+                .statusCode(201)
+                .body("data", not(emptyArray()));
+       body = resp.getBody();
+       System.out.println("Post Request Response: " + body.asString());
+
 //        Put Request
         requestParams = new JSONObject();
         requestParams.put("username", "Sati");
@@ -84,17 +84,17 @@ public class superVillain_Automation {
 
 
 
-//
 
-////        user register
-//         requestParams = new JSONObject();
-//         requestParams.put("username","Sain");
-//         requestParams.put("password","1234");
-//         resp = request.body(requestParams.toJSONString()).post("auth/user/register");
-//         valid_response = resp.then();
-//         valid_response
-//                 .assertThat()
-//                .statusCode(200);
+
+//        user register
+         requestParams = new JSONObject();
+         requestParams.put("username","Sain");
+         requestParams.put("password","1234");
+         resp = request.body(requestParams.toJSONString()).post("auth/user/register");
+         valid_response = resp.then();
+         valid_response
+                 .assertThat()
+                .statusCode(200);
 
 
 
