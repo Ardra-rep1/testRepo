@@ -188,10 +188,7 @@ public class superVillain_Automation {
                 .given()
                 .header("Authorization", superVillainObjects.token)
                 .header("Content-Type", "application/json");
-
-        JSONObject data = new JSONObject();
-        data.put("username","helania");
-        resp = request.body(data.toJSONString()).delete("v1/user");
+        resp = request.delete("v1/user/:hala");
         valid_response = resp.then();
 //        valid_response
 //                .assertThat()
