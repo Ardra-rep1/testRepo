@@ -1,14 +1,18 @@
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+
 import io.restassured.response.ResponseBody;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.RequestSpecification;
+
 import org.json.simple.JSONObject;
+import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 
-
-
+import java.util.HashMap;
 
 import static org.hamcrest.Matchers.*;
 
@@ -16,104 +20,164 @@ public class superVillain_Automation {
 
 
 
-    public static void main(String[] args) {
+    @Test(priority = 0)
+    public void  verifyToken(){
         ValidatableResponse valid_response;
         Response resp;
-        ResponseBody body;
-        JSONObject requestParams;
-
         RestAssured.baseURI = "https://supervillain.herokuapp.com/";
-        RequestSpecification request = RestAssured.given().header("Authorization", superVillainObjects.token)
+        RequestSpecification request = RestAssured
+                .given()
+                .header("Authorization", superVillainObjects.token)
                 .header("Content-Type", "application/json");
 
 //      Verifying my token:
         resp = request
                 .get("auth/verifytoken");
-        valid_response = resp.then().statusCode(200);
+        valid_response = resp.then();
+
         valid_response
                 .assertThat()
                 .statusCode(200)
-                .body("data", not(emptyArray()));
+                .body("data", not(emptyArray()))
+                .log().body()
+                .extract().response();
+       Assert.assertEquals(resp.statusCode(),200);
 
+    }
 
-        body = resp.getBody();
+    @Test(priority = 1)
+    public void getUserDetails(){
 
-
-        System.out.println("Response Body is: " + body.asString());
-
-
-//       Get Request
-
+        ValidatableResponse valid_response;
+        Response resp;
+        RestAssured.baseURI = "https://supervillain.herokuapp.com/";
+        RequestSpecification request = RestAssured
+                .given()
+                .header("Authorization", superVillainObjects.token)
+                .header("Content-Type", "application/json");
+//               Get Request
         resp = request.get("v1/user");
         valid_response = resp.then();
         valid_response.assertThat()
                 .statusCode(200)
-                .body("data", not(emptyArray()));
-        body = resp.getBody();
-        System.out.println("Get Request Response: " + body.asString());
+                .body("data", not(emptyArray()))
+                .log().body()
+                .extract().response();
+        Assert.assertEquals(resp.statusCode(),200);
 
 
-//       post Request
+    }
+    @Test(priority = 0)
+    public void postUserDetails(){
+
+        ValidatableResponse valid_response;
+        Response resp;
+        RestAssured.baseURI = "https://supervillain.herokuapp.com/";
+        RequestSpecification request = RestAssured
+                .given()
+                .header("Authorization", superVillainObjects.token)
+                .header("Content-Type", "application/json");
+//               post Request
+                JSONObject requestParams;
          requestParams = new JSONObject();
-         requestParams.put("username", "Sati");
+         requestParams.put("username", "helan");
          requestParams.put("score", 500);
          resp = request.body(requestParams.toJSONString()).post("v1/user");
          valid_response = resp.then();
          valid_response.assertThat()
                 .statusCode(201)
-                .body("data", not(emptyArray()));
-       body = resp.getBody();
-       System.out.println("Post Request Response: " + body.asString());
+                .body("data", not(emptyArray()))
+                 .body("status",equalTo("success"))
+                 .body("message",equalTo("User added."))
+                 .log().body()
+                 .extract().response();
 
+        Assert.assertEquals(resp.statusCode(),201);
+        String jsonString = resp.asString();
+        Assert.assertEquals(jsonString.contains("User added."),true);
+
+    }
+    @Test
+    public static void putUserDetails(){
+
+        ValidatableResponse valid_response;
+        Response resp;
+        RestAssured.baseURI = "https://supervillain.herokuapp.com/";
+        RequestSpecification request = RestAssured
+                .given()
+                .header("Authorization", superVillainObjects.token)
+                .header("Content-Type", "application/json");
 //        Put Request
+        JSONObject requestParams;
         requestParams = new JSONObject();
         requestParams.put("username", "Sati");
         requestParams.put("score", 200);
         resp = request.body(requestParams.toJSONString()).put("v1/user");
         valid_response = resp.then();
-        valid_response.assertThat()
+        valid_response
+                .assertThat()
                 .statusCode(204);
+        Assert.assertEquals(resp.statusCode(),204);
+    }
 
-////        delete Request
-//        requestParams = new JSONObject();
-//        requestParams.put("username","Sati");
-//        resp = request.body(requestParams.toJSONString()).delete("v1/user");
-//        valid_response = resp.then();
-//
+    @Test
+    public void userRegister(){
 
+        ValidatableResponse valid_response;
+        Response resp;
+        RestAssured.baseURI = "https://supervillain.herokuapp.com/";
+        RequestSpecification request = RestAssured
+                .given()
+                .header("Authorization", superVillainObjects.token)
+                .header("Content-Type", "application/json");
 
-
-
-
-
-//        user register
+//                user register
+         JSONObject requestParams;
          requestParams = new JSONObject();
-         requestParams.put("username","Sain");
+         requestParams = new JSONObject();
+         requestParams.put("username","Ariya");
          requestParams.put("password","1234");
          resp = request.body(requestParams.toJSONString()).post("auth/user/register");
          valid_response = resp.then();
          valid_response
                  .assertThat()
                 .statusCode(200);
-
-
-
-//         user login
-        requestParams = new JSONObject();
-        requestParams.put("username","helen");
-        requestParams.put("password","1234");
-        resp = request.body(requestParams.toJSONString()).post("auth/user/login");
-        valid_response = resp.then();
-        valid_response
-                .assertThat()
-                .statusCode(200)
-                .body("data", not(emptyArray()));
-       body = resp.getBody();
-       System.out.println("Post Request Response: " + body.asString());
+        Assert.assertEquals(resp.statusCode(),200);
 
 
 
     }
+    @Test
+    public void userLogin(){
+
+        ValidatableResponse valid_response;
+        Response resp;
+        RestAssured.baseURI = "https://supervillain.herokuapp.com/";
+        RequestSpecification request = RestAssured
+                .given()
+                .header("Authorization", superVillainObjects.token)
+                .header("Content-Type", "application/json");
+
+        ////         user login
+        JSONObject data = new JSONObject();
+        data.put("username","helen");
+        data.put("password","1234");
+        resp = request.body(data.toJSONString()).post("auth/user/login");
+        valid_response = resp.then();
+        valid_response
+                .assertThat()
+                .statusCode(200)
+                .body("data", not(emptyArray()))
+                .body("expiresIn",equalTo("3 min"))
+                .log().body()
+                .extract().response();
+
+        Assert.assertEquals(resp.statusCode(),200);
+
+
+
+    }
+
 
 
 
